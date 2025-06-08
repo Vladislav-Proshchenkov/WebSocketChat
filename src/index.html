@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Chat</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/modal.css">
+</head>
+<body>
+    <div id="root">
+        <!-- Модальное окно для ввода никнейма -->
+        <div class="modal__form active" id="nicknameModal">
+            <div class="modal__background"></div>
+            <div class="modal__content">
+                <div class="modal__header">Выберите псевдоним</div>
+                <div class="modal__body">
+                    <div class="form__group">
+                        <input type="text" class="form__input" id="nicknameInput" placeholder="Ваш никнейм">
+                        <p class="form__hint" id="errorText"></p>
+                    </div>
+                </div>
+                <div class="modal__footer">
+                    <button class="modal__ok" id="continueBtn">Продолжить</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Основной интерфейс чата -->
+        <div class="container hidden" id="chatContainer">
+            <h1 class="chat__header">WebSocket Chat</h1>
+            <div class="chat__container">
+                <div class="chat__area">
+                    <div class="chat__messages-container" id="messagesContainer"></div>
+                    <div class="chat__messages-input">
+                        <div class="form">
+                            <div class="form__group">
+                                <input type="text" class="form__input" id="messageInput" placeholder="Type your message here">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat__userlist">
+                    <h3>Участники</h3>
+                    <ul id="userList"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./index.js"></script>
+</body>
+</html>
