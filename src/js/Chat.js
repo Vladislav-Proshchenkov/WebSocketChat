@@ -69,6 +69,9 @@ export default class Chat {
           this.requestUserList();
         } else if (data.type === 'send') {
           this.handleIncomingMessage(data);
+        } else if (data.type === 'nickname-error') {
+          this.showError(data.message);
+          this.currentUser = null;
         }
       } catch (e) {
         console.error('Ошибка парсинга сообщения:', e);
@@ -131,21 +134,26 @@ export default class Chat {
   }
 
   checkNicknameAvailability(nickname) {
-    setTimeout(() => {
-      this.currentUser = {
-        id: this.generateUUID(),
-        name: nickname
-      };
-      
-      if (this.websocket.readyState === WebSocket.OPEN) {
-        this.sendUserJoin();
-        this.nicknameModal.classList.remove('active');
-        this.chatContainer.classList.remove('hidden');
-        this.messageInput.focus();
-      } else {
-        this.showError('Нет соединения с сервером');
-      }
-    }, 500);
+    const nicknameExists = this.users.some(user => user.name.toLowerCase() === nickname.toLowerCase());
+    
+    if (nicknameExists) {
+      this.showError('Этот никнейм уже занят');
+      return;
+    }
+  
+    this.currentUser = {
+      id: this.generateUUID(),
+      name: nickname
+    };
+    
+    if (this.websocket.readyState === WebSocket.OPEN) {
+      this.sendUserJoin();
+      this.nicknameModal.classList.remove('active');
+      this.chatContainer.classList.remove('hidden');
+      this.messageInput.focus();
+    } else {
+      this.showError('Нет соединения с сервером');
+    }
   }
 
   updateUserList() {
